@@ -14,6 +14,33 @@ $app->get('/', function () use ($app) {
 ->bind('homepage')
 ;
 
+$app->get('/site/', function () use ($app) {
+return $app['twig']->render('about.html.twig', array());
+})
+->bind('about')
+;
+
+$app->get('/testparam/{id}', function ($id) use ($app) {
+return $app['twig']->render('testparam.html.twig',
+array(
+'param1' => $id
+));
+})
+->bind('testparam')
+;
+$app->get('/listebd/{id}', function ($id) use ($app) {
+require_once 'tempdata/liste_bd_temp.php';
+return $app['twig']->render('listebd.html.twig',
+array(
+'param1' => $id,
+'listebd' => getListeBD()
+));
+})
+->bind('listebd')
+;
+
+
+
 $app->error(function (\Exception $e, Request $request, $code) use ($app) {
     if ($app['debug']) {
         return;
